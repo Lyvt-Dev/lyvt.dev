@@ -1,0 +1,18 @@
+{
+  "name": "lyvt-portfolio",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "fetch-skin": "node scripts/fetch-skin.mjs"
+  },
+  "dependencies": {
+    "skinview3d": "^3.4.2"
+  },
+  "devDependencies": {
+    "vite": "^7.3.7"
+  }
+}
