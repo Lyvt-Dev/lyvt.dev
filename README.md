@@ -21,3 +21,10 @@ npm run preview -- --port 3000
 Deploy the generated `dist/` folder to a static host. No credentials or backend services are required. Content and project links are in `index.html`; styling is in `src/style.css`; video controls and section navigation are in `src/main.js`. Media files are served from `public/`.
 
 The banner is muted and loops automatically, with a pause/play control. Reduced-motion preferences disable autoplay.
+
+## GitHub Pages
+
+In **Settings → Pages → Build and deployment → Source**, select **GitHub Actions**.
+The Pages workflow builds the app and publishes `dist/` on pushes to `main`.
+Do not publish the repository root directly: it contains Vite source files.
+Relative asset URLs support both `/lyvt.dev/` and a custom domain.
