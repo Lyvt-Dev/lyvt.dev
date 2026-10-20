@@ -1,6 +1,6 @@
 # Luca “Lyvt” portfolio
 
-A single-page English portfolio with a full-width video hero, a 3D Minecraft skin, project filters, and a black and purple theme.
+A single-page English portfolio with a full-width video hero, a freely floating 3D Minecraft skin, a compact project gallery, and a black and purple theme.
 
 ## Develop
 
@@ -35,20 +35,22 @@ npm run fetch-skin
 VITE_MINECRAFT_SKIN_URL=./skin.png npm run build
 ```
 
-Development uses the public Minotar skin endpoint for `Lyvt`. If that endpoint is blocked or unavailable, the site shows a neutral silhouette, retry button, and Minecraft profile link. It never substitutes another player’s skin. The 3D viewer code loads only after a skin is retrieved. Reduced-motion preferences pause both the video and skin animation.
+Development uses the public Minotar skin endpoint for `Lyvt`. If that endpoint is blocked or unavailable, the site shows a neutral silhouette, retry button, and Minecraft profile link. It never substitutes another player’s skin. The 3D viewer code loads only after a skin is retrieved. Reduced-motion preferences pause both the video and skin animation. The skin has a seated floating pose with subtle motion and manual rotation controls.
 
 ## Edit content
 
 - `src/data.js`: selected projects, technologies, and Minecraft skin source.
 - `index.html`: biography, hero, navigation, and contact links.
 - `src/style.css`: responsive layout, colors, typography, and animation.
-- `src/projects.js`: cards, skills, and accessible project filtering.
-- `src/video.js`: playback, poster fallback, and reduced motion.
+- `src/projects.js`: project gallery and tool icon rendering.
+- `src/video.js`: original banner audio, sound toggle, playback, poster fallback, and reduced motion.
 - `src/skin.js`: lazy 3D skin rendering, rotation controls, retry, and motion settings.
-- `public/`: optimized images, self-hosted font, supplied MP4, and a compact WebM version.
+- `public/`: optimized images, self-hosted font, supplied MP4, and a compact WebM version with an Opus audio track.
 
 ## Content and assets
 
-Project descriptions and skills are based on the public Lyvt-Dev profile and the ThinkCad, ItemNPC, and ClanPlus READMEs. Project data is local, so no GitHub API token is required. The ThinkCad screenshot comes from its repository. The banner video was provided by Luca. Manrope is licensed under the SIL Open Font License, included in `public/fonts/OFL.txt`.
+Project descriptions and skills are based on the public Lyvt-Dev profile and the ThinkCad, ItemNPC, and ClanPlus READMEs. Project data is local, so no GitHub API token is required. The ThinkCad screenshot comes from its repository. The banner video was provided by Luca. Both MP4 and WebM include its original audio. The page attempts audible playback, falls back to muted playback when the browser blocks it, and provides an explicit sound toggle. Manrope is licensed under the SIL Open Font License, included in `public/fonts/OFL.txt`.
 
-The skin layout is inspired by the provided reference, with its own presentation and interactions. No image from the reference site is reused.
+The layout follows the supplied reference: large name and floating skin, a compact project gallery, a short biography, tool icons, and a minimal footer. No image from the reference site is reused.
+
+Tool icons are from Devicon. Its MIT license is included in `public/tools/LICENSE.txt`.

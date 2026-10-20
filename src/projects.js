@@ -1,33 +1,18 @@
-import { projects, skillGroups } from './data.js';
+import { projects, tools } from './data.js';
 
-const arrow = '<svg class="icon"><use href="#i-arrow"/></svg>';
 const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
+const arrow = '<svg class="icon small"><use href="#i-arrow"/></svg>';
 
 function artwork(project) {
-  if (project.image) return `<div class="project-visual thinkcad-visual"><div class="app-window"><div class="app-window-bar"><span><i></i><i></i><i></i></span><span>ThinkCad / workspace</span><svg class="icon small"><use href="#i-chip"/></svg></div><img src="${escapeHtml(new URL(project.image, document.baseURI).href)}" alt="${escapeHtml(project.imageAlt)}" loading="lazy" width="1200" height="750"></div><span class="visual-caption">AN IDEA. A CIRCUIT. A POSSIBILITY.</span></div>`;
-  if (project.artwork === 'item') return '<div class="project-visual plugin-visual item-visual" aria-hidden="true"><div class="item-orbit orbit-one"></div><div class="item-orbit orbit-two"></div><div class="voxel-cube"><span class="cube-front"></span><span class="cube-top"></span><span class="cube-side"></span></div><span class="visual-caption">SMALL DETAILS. BETTER WORLDS.</span><span class="art-corner">&lt; / &gt;</span></div>';
-  return '<div class="project-visual plugin-visual clan-visual" aria-hidden="true"><div class="clan-ring"></div><div class="clan-emblem"><svg viewBox="0 0 120 130"><path class="shield" d="M60 8 105 26v37c0 27-22 47-45 59C37 110 15 90 15 63V26L60 8Z"/><path class="shield-detail" d="m39 62 15 15 29-32"/></svg></div><span class="visual-caption">YOUR PEOPLE. YOUR IDENTITY.</span><span class="art-corner">&lt; / &gt;</span></div>';
+  if (project.image) return `<div class="project-art desktop-art"><img src="${escapeHtml(new URL(project.image, document.baseURI).href)}" alt="${escapeHtml(project.imageAlt)}" loading="lazy" width="1200" height="750"><span class="art-code">C++20 / QT 6</span></div>`;
+  if (project.artwork === 'item') return '<div class="project-art item-art" aria-hidden="true"><div class="voxel"><span class="voxel-top"></span><span class="voxel-front"></span><span class="voxel-side"></span></div><span class="art-title">ItemNPC<span>INTERACTION, REIMAGINED.</span></span><span class="art-code">/npc spawn &lt;idea&gt;</span></div>';
+  return '<div class="project-art clan-art" aria-hidden="true"><svg class="clan-shield" viewBox="0 0 100 110"><path d="m50 5 40 16v33c0 24-20 43-40 54C30 97 10 78 10 54V21L50 5Z"/><path d="m32 53 13 13 25-27"/></svg><span class="art-title">ClanPlus<span>BUILD YOUR COMMUNITY.</span></span><span class="art-code">&lt;clan color="purple" /&gt;</span></div>';
 }
 
 export function renderProjects() {
-  const grid = document.querySelector('#project-grid');
-  grid.innerHTML = projects.map(project => `<article class="project-card reveal ${project.featured ? 'featured-project' : ''}" data-category="${escapeHtml(project.category)}">${artwork(project)}<div class="project-body"><div class="project-meta"><span class="tiny-label">${escapeHtml(project.categoryLabel)}</span><span class="project-number">${project.number}</span></div><h3><a href="${escapeHtml(project.repository)}" target="_blank" rel="noopener noreferrer">${escapeHtml(project.name)}${arrow}</a></h3><p>${escapeHtml(project.description)}</p><div class="project-tags">${project.technologies.map(tag => `<span>${escapeHtml(tag)}</span>`).join('')}</div><a class="project-source" href="${escapeHtml(project.repository)}" target="_blank" rel="noopener noreferrer"><svg class="icon small"><use href="#i-github"/></svg>View on GitHub${arrow}<span class="sr-only">: ${escapeHtml(project.name)}</span></a></div></article>`).join('');
-  document.querySelectorAll('[data-filter]').forEach(button => {
-    button.addEventListener('click', () => {
-      const filter = button.dataset.filter;
-      document.querySelectorAll('[data-filter]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
-      let count = 0;
-      grid.querySelectorAll('.project-card').forEach(card => {
-        const show = filter === 'all' || card.dataset.category === filter;
-        card.hidden = !show;
-        if (show) { count++; card.classList.add('is-visible'); }
-      });
-      document.querySelector('#project-count').textContent = `${count} PROJECT${count === 1 ? '' : 'S'}`;
-      grid.classList.toggle('filtered-grid', filter === 'minecraft');
-    });
-  });
+  document.querySelector('#project-grid').innerHTML = projects.map(project => `<article class="project-card reveal"><a class="project-image-link" href="${escapeHtml(project.repository)}" target="_blank" rel="noopener noreferrer" aria-label="View ${escapeHtml(project.name)} on GitHub">${artwork(project)}<span class="project-hover">View source ${arrow}</span></a><div class="project-title"><h3><a href="${escapeHtml(project.repository)}" target="_blank" rel="noopener noreferrer">${escapeHtml(project.name)}</a></h3><span>${escapeHtml(project.categoryLabel)}</span></div><p>${escapeHtml(project.description)}</p><div class="project-tech">${project.technologies.map(tag=>`<span>${escapeHtml(tag)}</span>`).join('')}</div></article>`).join('');
 }
 
 export function renderSkills() {
-  document.querySelector('#skills-grid').innerHTML = skillGroups.map(group => `<article class="skill-card reveal"><div class="skill-card-top"><span class="skill-number">${group.number}</span><svg class="icon"><use href="#${group.number === '01' ? 'i-code' : group.number === '02' ? 'i-chip' : 'i-cube'}"/></svg></div><h3>${escapeHtml(group.title)}</h3><p>${escapeHtml(group.description)}</p><ul>${group.skills.map(skill => `<li${skill === 'Java' ? ' class="primary-skill"' : ''}>${escapeHtml(skill)}</li>`).join('')}</ul></article>`).join('');
+  document.querySelector('#skills-grid').innerHTML = tools.map(tool => `<div class="tool"><img src="${escapeHtml(new URL(`tools/${tool.icon}.svg`,document.baseURI).href)}" alt="" width="52" height="52" loading="lazy"><span>${escapeHtml(tool.name)}</span></div>`).join('');
 }

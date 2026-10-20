@@ -34,10 +34,23 @@ export const projects = [
   },
 ];
 
-export const skillGroups = [
-  { number: '01', title: 'Languages', description: 'From the browser to the desktop.', skills: ['Java', 'C++', 'C#', 'JavaScript', 'TypeScript', 'HTML', 'CSS'] },
-  { number: '02', title: 'Build & data', description: 'The foundations behind the features.', skills: ['Qt 6', 'Gradle', 'Maven', 'MySQL'] },
-  { number: '03', title: 'Everyday toolkit', description: 'My setup for getting things done.', skills: ['Git', 'GitHub', 'Linux', 'Docker', 'IntelliJ IDEA', 'VS Code'] },
+export const tools = [
+  { name: 'Java', icon: 'java' },
+  { name: 'C++', icon: 'cplusplus' },
+  { name: 'C#', icon: 'csharp' },
+  { name: 'JavaScript', icon: 'javascript' },
+  { name: 'TypeScript', icon: 'typescript' },
+  { name: 'Qt', icon: 'qt' },
+  { name: 'Git', icon: 'git' },
+  { name: 'GitHub', icon: 'github' },
+  { name: 'Gradle', icon: 'gradle' },
+  { name: 'Maven', icon: 'maven' },
+  { name: 'MySQL', icon: 'mysql' },
+  { name: 'Linux', icon: 'linux' },
+  { name: 'Docker', icon: 'docker' },
+  { name: 'IntelliJ IDEA', icon: 'intellij' },
+  { name: 'VS Code', icon: 'vscode' },
+  { name: 'HTML / CSS', icon: 'html5' },
 ];
 
 // CI fetches the real skin and sets a local asset URL for production builds.

@@ -15,8 +15,8 @@ export async function initSkin(reducedMotion) {
 
   const syncMotion = () => {
     if (!viewer) return;
-    viewer.animation = animate ? animation : null;
-    viewer.autoRotate = animate;
+    animation.paused = !animate;
+    viewer.autoRotate = false;
     viewer.renderPaused = !visible || document.hidden;
     const button = document.querySelector('#skin-motion');
     button.setAttribute('aria-label', animate ? 'Pause skin animation' : 'Play skin animation');
@@ -35,18 +35,28 @@ export async function initSkin(reducedMotion) {
       if (!blob.type.startsWith('image/')) throw new Error('Invalid skin image');
       const imageUrl = URL.createObjectURL(blob);
       try {
-        const { SkinViewer, IdleAnimation } = await import('skinview3d');
+        const { SkinViewer, FunctionAnimation } = await import('skinview3d');
         viewer?.dispose();
         canvas.hidden = false;
         viewer = new SkinViewer({ canvas, width: stage.clientWidth, height: stage.clientHeight, fov: 45 });
         await viewer.loadSkin(imageUrl);
-        viewer.camera.position.set(25, 10, 65);
+        viewer.camera.position.set(10, 7, 53);
         viewer.controls.enablePan = false;
         viewer.controls.enableZoom = false;
         viewer.autoRotateSpeed = .35;
         viewer.globalLight.intensity = 1.2;
-        animation = new IdleAnimation();
-        animation.speed = .6;
+        animation = new FunctionAnimation((player, time) => {
+          player.position.y = 1.5 + Math.sin(time * 1.1) * .65;
+          player.rotation.z = -.08 + Math.sin(time * .7) * .025;
+          player.rotation.y = -.16 + Math.sin(time * .55) * .12;
+          player.skin.head.rotation.set(.12, -.08, .12);
+          player.skin.leftLeg.rotation.set(-1.2, .06, -.22);
+          player.skin.rightLeg.rotation.set(-1.15, -.06, .22);
+          player.skin.leftArm.rotation.set(-.65, 0, -.2);
+          player.skin.rightArm.rotation.set(-.65, 0, .2);
+        });
+        viewer.animation = animation;
+        animation.update(viewer.playerObject, 0);
         fallback.hidden = true;
         controls.hidden = false;
         syncMotion();
@@ -72,8 +82,8 @@ export async function initSkin(reducedMotion) {
   }, { rootMargin: '100px' });
   observer.observe(stage);
   retry.addEventListener('click', load);
-  document.querySelector('#skin-left').addEventListener('click', () => { if (viewer) viewer.playerObject.rotation.y -= Math.PI / 4; });
-  document.querySelector('#skin-right').addEventListener('click', () => { if (viewer) viewer.playerObject.rotation.y += Math.PI / 4; });
+  document.querySelector('#skin-left').addEventListener('click', () => { if (viewer) viewer.playerWrapper.rotation.y -= Math.PI / 4; });
+  document.querySelector('#skin-right').addEventListener('click', () => { if (viewer) viewer.playerWrapper.rotation.y += Math.PI / 4; });
   document.querySelector('#skin-motion').addEventListener('click', () => { animate = !animate; syncMotion(); });
   reducedMotion.addEventListener('change', event => { animate = !event.matches; syncMotion(); });
   document.addEventListener('visibilitychange', syncMotion);
